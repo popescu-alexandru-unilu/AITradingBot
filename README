@@ -1,0 +1,117 @@
+ai-trading-bot/
+├── data/
+│   ├── historical_prices.csv           # Cleaned OHLCV data
+│   ├── technical_indicators.csv        # RSI, MACD, etc.
+│   ├── news_sentiment.csv              # Headlines + sentiment score
+│   ├── combined_dataset.csv            # Final ML-ready dataset
+│   └── trade_log.csv                   # Log of all executed trades
+│
+├── models/
+│   └── trained_model.pkl               # Final ML model (Random Forest / XGBoost)
+│
+├── src/
+│   ├── collect_price_data.py           # MT5 data puller (real-time & historical)
+│   ├── compute_indicators.py           # Adds RSI, MACD, Bollinger, etc.
+│   ├── get_news_sentiment.py           # Pulls RSS headlines + sentiment scoring
+│   ├── label_generator.py              # Creates binary labels: 1 = up, 0 = down
+│   ├── train_model.py                  # Trains and saves classifier
+│   ├── predict_and_trade.py            # Loads model, predicts, executes trade
+│   └── scheduler.py                    # Runs everything on schedule (e.g., every 15 min)
+│
+├── notebooks/
+│   └── EDA_and_ModelEvaluation.ipynb   # Data analysis, training insights, confusion matrix
+│
+├── utils/
+│   └── config.py                       # Constants: SYMBOL, timeframe, lot size, thresholds
+│   └── binance_utils.py                    # Helper functions for order sending, checking positions
+│
+├── requirements.txt                    # Python dependencies
+├── README.md                           # Full project explanation
+└── run_bot.py            
+
+Every 15 minutes (or 1 hour):
+    ↓
+1. Get latest OHLCV data from Binance
+2. Compute indicators (RSI, MACD, Bollinger, returns)
+3. Pull recent news → compute sentiment score
+4. Assemble features → run model.predict()
+5. If prediction == 1 → Buy
+   If prediction == 0 → Sell
+6. Place trade in MT5 Demo account
+7. Log prediction, trade, and result
+This project develops a fully automated AI trading bot that predicts real-time market direction and places trades using Binance's crypto trading API. The model combines technical analysis with financial news sentiment to classify short-term price movement as bullish (BUY) or bearish (SELL). Once a prediction is made, the bot executes the trade using Binance's Testnet API, simulating real conditions.
+
+The system integrates:
+
+Real-time data collection (Binance)
+
+Feature generation (technical + sentiment)
+
+Model inference (classification)
+
+Trade execution (Testnet)
+
+Logging and performance tracking
+
+🔧 Core Components
+1. Market Data Feed (Binance API)
+OHLCV data pulled using python-binance
+
+Assets: e.g., BTCUSDT, ETHUSDT
+
+Features: RSI, MACD, returns, volatility
+
+2. News Sentiment
+Sources: CryptoPanic, FXStreet, or RSS feeds
+
+Scoring via TextBlob, VADER, or BERT (optional)
+
+Aggregated and aligned with price data
+
+3. ML Model
+Random Forest or XGBoost classifier
+
+Input: Features from indicators + sentiment
+
+Output: 1 = Buy, 0 = Sell
+
+4. Trade Engine (Binance Testnet)
+Uses API key + secret
+
+Places simulated market orders
+
+Trade log includes time, asset, prediction, action, and result
+
+5. Scheduler
+Automatically runs prediction + trade every 15 minutes
+
+Supports error handling and cooldown timers
+
+📊 Evaluation Metrics
+Accuracy, Precision, F1 Score
+
+Confusion Matrix
+
+Profit Curve / Cumulative PnL
+
+Sharpe Ratio (optional)
+
+Benchmark comparison (buy-and-hold)
+
+💻 Technologies Used
+Tool	Purpose
+python-binance	Binance Testnet API integration
+pandas, scikit-learn, xgboost	Data + ML
+pandas-ta / ta	Technical indicators
+TextBlob / VADER	News sentiment scoring
+schedule, logging	Bot automation
+matplotlib, seaborn	Visualization
+
+🚀 What Makes It Stand Out
+Combines technical indicators + sentiment in one unified model
+
+Executes live simulated trades on Binance Testnet
+
+No GUI dependencies — runs fully in Python
+
+Flexible for cloud deployment (e.g., VPS) or 24/7 trading

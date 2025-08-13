@@ -1,0 +1,33 @@
+# Core libraries
+pandas>=2.3.0
+numpy>=1.26.0,<2.0
+scikit-learn>=1.7.0
+scipy>=1.16.0,<1.14.0
+
+# ML and Optimization
+xgboost>=2.0.0
+optuna>=3.5.0
+imblearn>=0.0
+joblib>=1.4.0
+
+# Technical Analysis
+pandas_ta>=0.3.14b0
+ta>=0.11.0
+
+# Data Download
+yfinance>=0.2.0
+
+# Utility / Logging
+tqdm>=4.66.0
+
+# Speed-up and Bootstrapping
+numba>=0.60.0
+mlfinlab>=0.17.0
+
+# Timezone support (required by pandas)
+python-dateutil>=2.8.2
+pytz>=2023.3
+tzdata>=2022.7
+setuptools
+matplotlib
+ccxt>=2.0.0
