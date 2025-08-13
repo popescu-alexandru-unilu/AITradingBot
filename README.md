@@ -1,0 +1,2 @@
+# AITradingBot
+Personal project
